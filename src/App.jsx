@@ -1,60 +1,30 @@
 import React from "react";
-import Movie from "./Movie";
-
-const movies = [
-  {
-    title: "Captain America - The First Avenger",
-    hall: 2,
-    price: 350,
-    poster: "https://m.media-amazon.com/images/I/51Xp+8qDCbL._AC_UF350,350_QL50_.jpg"
-  },
-  {
-    title: "The Papillon",
-    hall: 1,
-    price: 300,
-    poster: "https://m.media-amazon.com/images/M/MV5BMjIxMTMyOTE2NF5BMl5BanBnXkFtZTgwMDYyNzY1NTM@._V1_.jpg"
-  },
-  {
-    title: "The Lost City of Z",
-    hall: 5,
-    price: 350,
-    poster: "https://m.media-amazon.com/images/M/MV5BZmU2ODIyMWItMjU3Zi00ZmVhLWIyNDAtMWE5OWU2ZDExMGFiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
-  },
-  {
-    title: "Klaus",
-    hall: 3,
-    poster: "https://m.media-amazon.com/images/I/7128yjOjl9L.jpg"
-  },
-  {
-    title: "Bullet Train",
-    poster: "https://m.media-amazon.com/images/I/71INz6LX8aL._AC_UF894,1000_QL80_.jpg"
-  }
-];
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Home from "./components/Home";
+import Movies from "./components/Movies";
+import About from "./components/About";
+import AppInfo from "./components/AppInfo";
+import AuthorInfo from "./components/AuthorInfo";
 
 function App() {
-  const date = new Date().toLocaleDateString();
-
-  const handleInput = (movieTitle, input) => {
-    alert(`Dodelili ste "${input}" za film "${movieTitle}"`);
-  };
-
   return (
-    <>
-      <p><strong>Repertoar za danas: {date}</strong></p>
-
-      {movies.map((movie, index) => (
-          <Movie 
-            key={index}
-            title={movie.title} 
-            hall={movie.hall} 
-            price={movie.price}
-            poster={movie.poster}
-            onClick={handleInput}
-          />
-        ))}
-    </>
+    <BrowserRouter>
+     <Header />
+      <div style={{ paddingBottom: '500px' }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/about" element={<About />}>
+            <Route path="app" element={<AppInfo />} />
+            <Route path="author" element={<AuthorInfo />} />
+          </Route>
+        </Routes>
+      </div>
+     <Footer />
+    </BrowserRouter>
   );
-
 }
+
 export default App;
