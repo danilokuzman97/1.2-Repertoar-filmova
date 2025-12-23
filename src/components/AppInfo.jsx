@@ -1,7 +1,7 @@
 import React from "react";
 
 function AppInfo() {
-  return <p>Ova aplikacija prikazuje repertoar filmova i omogućava korisnicima da lajkuju ili dislajkuju filmove.</p>;
+  return <p>Aplikacija prikazuje repertoar filmova i daje opciju za like ili dislike filma.</p>;
 }
 
 export default AppInfo;

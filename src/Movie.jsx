@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Movie.css";
 
 
 const Movie = (props) => {
+
+  const [likes, setLikes] = useState(0);
+  const [dislikes, setDislikes] = useState(0);
+
+  const onLike = async () => {
+    setLikes(prev => prev +1);
+  };
+
+  const onDislike = async () => {
+    setDislikes(prev => prev +1);
+  };
+
   return(
     <div className="container">
      <div className="wrapper">
@@ -11,8 +23,10 @@ const Movie = (props) => {
       </div>
 
       <div className="buttons">
-        <button onClick={() => props.onClick(props.title, "Like")}>Like</button>
-        <button onClick={() => props.onClick(props.title, "Dislike")}>Dislike</button>
+        <button onClick={onLike}>Like</button>
+        <button onClick={onDislike}>Dislike</button>
+        <p>Likes: {likes}</p>
+        <p>Dislikes: {dislikes}</p>
       </div>
      </div>
 
