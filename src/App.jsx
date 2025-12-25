@@ -7,6 +7,8 @@ import Movies from "./components/Movies";
 import About from "./components/About";
 import AppInfo from "./components/AppInfo";
 import AuthorInfo from "./components/AuthorInfo";
+import MovieForm from "./components/MovieForm";
+
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
+          <Route path="/movies/add" element={<MovieForm />} />
           <Route path="/about" element={<About />}>
             <Route path="app" element={<AppInfo />} />
             <Route path="author" element={<AuthorInfo />} />

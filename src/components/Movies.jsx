@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Movie from "../Movie";
+import MovieForm from "./MovieForm";
+import EditMovieForm from "./EditMovieForm";
 
-const movies = [
+const movies1 = [
   {
     title: "Captain America - The First Avenger",
     hall: 2,
@@ -31,16 +33,43 @@ const movies = [
   }
 ];
 
+
 function Movies() {
   const date = new Date().toLocaleDateString();
+  const [movies, setMovies] = useState(movies1);
+  const [editingMovie, setEditingMovie] = useState(null);
 
   const handleInput = (movieTitle, input) => {
     alert(`Dodelili ste "${input}" za film "${movieTitle}"`);
   };
 
+  const addNewMovie = (data) => {
+    const newMovie = {
+      title: data.name,
+      hall: data.hall,
+      price: data.ticketPrice,
+      poster: data.poster
+    };
+  setMovies(prev => [...prev, newMovie]);
+  };
+
+  const editMovie = (updatedMovie) => {
+    setMovies(prev => prev.map(m => m ===editingMovie ? updatedMovie : m));
+    setEditingMovie(null);
+  }
+
   return (
     <>
       <p><strong>Repertoar za danas: {date}</strong></p>
+
+
+      {editingMovie && (
+      <EditMovieForm
+        movie={editingMovie}
+        onEditMovie={editMovie}
+      />
+)}
+
       {movies.map((movie, index) => (
         <Movie 
           key={index}
@@ -49,10 +78,14 @@ function Movies() {
           price={movie.price}
           poster={movie.poster}
           onClick={handleInput}
-        />
+          onEdit={() => setEditingMovie(movie)}         
+        />       
       ))}
+      <MovieForm onAddMovie={addNewMovie} />
     </>
   );
+
 }
 
 export default Movies;
+

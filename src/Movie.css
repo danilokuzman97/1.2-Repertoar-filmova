@@ -19,6 +19,9 @@ body {
 
 .buttons{
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 5px;
   padding-right: 10px;

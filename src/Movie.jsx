@@ -25,6 +25,7 @@ const Movie = (props) => {
       <div className="buttons">
         <button onClick={onLike}>Like</button>
         <button onClick={onDislike}>Dislike</button>
+        <button onClick={props.onEdit}>Edit</button>
         <p>Likes: {likes}</p>
         <p>Dislikes: {dislikes}</p>
       </div>
