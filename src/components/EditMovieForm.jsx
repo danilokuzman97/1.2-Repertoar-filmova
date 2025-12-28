@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import "../Movie.css";
 
-const EditMovieForm = ({onEditMovie, movie}) => {
+
+const EditMovieForm = ({onEditMovie, movie, onCancel}) => {
 
   const {register,handleSubmit,formState: {errors}, reset, setValue} = useForm();
 
@@ -78,7 +80,10 @@ const EditMovieForm = ({onEditMovie, movie}) => {
           placeholder="Url" />
       </div>
 
-      <button type="submit">Edit movie</button>
+      <div className="form-buttons">
+        <button type="submit">Edit movie</button>
+        <button type="button" onClick={onCancel}>Cancel</button>
+      </div>
 
     </form>
   )

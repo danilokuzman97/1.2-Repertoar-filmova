@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Movie from "../Movie";
 import MovieForm from "./MovieForm";
 import EditMovieForm from "./EditMovieForm";
@@ -36,8 +36,62 @@ const movies1 = [
 
 function Movies() {
   const date = new Date().toLocaleDateString();
-  const [movies, setMovies] = useState(movies1);
+
+  const [movies, setMovies] = useState(movies1.map(movie => ({
+    ...movie,
+    likes: 0,
+    dislikes: 0
+  }))
+);
   const [editingMovie, setEditingMovie] = useState(null);
+  const [topMovie, setTopMovie] = useState(null);
+
+  const randomIncrement = () => Math.floor(Math.random() * 5) + 1;
+
+  const likeMovie = (index) => {
+    setMovies(prev =>
+      prev.map((movie, i) =>
+        i === index
+          ? { ...movie, likes: movie.likes + randomIncrement() }
+          : movie
+      )
+    );
+  };
+
+   const dislikeMovie = (index) => {
+    setMovies(prev =>
+      prev.map((movie, i) =>
+        i === index
+          ? { ...movie, dislikes: movie.dislikes + randomIncrement() }
+          : movie
+      )
+    );
+  }; 
+
+    useEffect(() => {
+      console.log("Postavka filmova");
+
+    return () => {
+      console.log("Sklanjanje filmova");
+      };
+    }, []);
+
+    useEffect(() => {
+    if (movies.length === 0) return;
+
+    let best = movies[0];
+
+    movies.forEach(movie => {
+      const score = movie.likes - movie.dislikes;
+      const bestScore = best.likes - best.dislikes;
+
+      if (score > bestScore) {
+        best = movie;
+      }
+    });
+
+    setTopMovie(best);
+  }, [movies]);
 
   const handleInput = (movieTitle, input) => {
     alert(`Dodelili ste "${input}" za film "${movieTitle}"`);
@@ -48,7 +102,9 @@ function Movies() {
       title: data.name,
       hall: data.hall,
       price: data.ticketPrice,
-      poster: data.poster
+      poster: data.poster,
+      likes: 0,
+      dislikes: 0
     };
   setMovies(prev => [...prev, newMovie]);
   };
@@ -58,10 +114,20 @@ function Movies() {
     setEditingMovie(null);
   }
 
+  
+
   return (
     <>
       <p><strong>Repertoar za danas: {date}</strong></p>
 
+      {topMovie && (
+        <div>
+          <h2>Najbolje ocenjen film</h2>
+          <p>
+            {topMovie.title} (Ocena: {topMovie.likes - topMovie.dislikes})
+          </p>
+        </div>
+      )}
 
       {editingMovie && (
       <EditMovieForm
@@ -77,7 +143,10 @@ function Movies() {
           hall={movie.hall} 
           price={movie.price}
           poster={movie.poster}
-          onClick={handleInput}
+          likes={movie.likes}
+          dislikes={movie.dislikes}
+          onLike={() => likeMovie(index)}
+          onDislike={() => dislikeMovie(index)}
           onEdit={() => setEditingMovie(movie)}         
         />       
       ))}
